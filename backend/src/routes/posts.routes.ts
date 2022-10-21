@@ -68,6 +68,12 @@ postsRoutes.post("/posts", (request, response) => {
   });
 });
 
+postsRoutes.get("/posts", (request, response) => {
+  const posts = postsRepository.list();
+
+  return response.json(posts);
+});
+
 // postsRoutes.get("/posts", (request, response) => {
 //   return response.status(200).json(posts);
 // });
