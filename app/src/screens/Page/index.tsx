@@ -5,13 +5,11 @@ import { FontAwesome } from "@expo/vector-icons";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 import { usePage } from "../../hooks/page";
-import { client } from "../../services/client";
+import type { Post as PostType } from '../../domain/shared/post';
 import type { Page as PageType } from "../../contexts/PageContext";
+import { getPosts } from "../../services/use-cases/posts";
 
-interface Post {
-  title: string;
-  category: string;
-}
+interface Post extends Pick<PostType, 'title' | 'category'> {}
 
 export function Page() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -29,12 +27,8 @@ export function Page() {
     setIsFetchingPosts(true);
 
     try {
-      const { data } = await client.get<Post[]>("/posts");
-      const mappedPost = data.map((post) => ({
-        title: post.title,
-        category: post.category,
-      }));
-      setPosts(mappedPost);
+      const response = await getPosts();
+      setPosts(response);
     } catch (err) {
       setPosts([]);
     } finally {
@@ -97,7 +91,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingBottom: 102,
     marginTop: getStatusBarHeight(),
-    backgroundColor: '#FFF',
   },
   "content-type-view": {
     marginTop: 24,
@@ -105,7 +98,7 @@ const styles = StyleSheet.create({
   },
   "content-type-title": {
     padding: 8,
-    backgroundColor: "#F8F8F8",
+    backgroundColor: "#E9E9E9",
     width: "100%",
     textAlign: "center",
     fontSize: 16,
