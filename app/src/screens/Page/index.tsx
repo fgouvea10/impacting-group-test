@@ -5,11 +5,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 import { usePage } from "../../hooks/page";
-import type { Post as PostType } from '../../domain/shared/post';
-import type { Page as PageType } from "../../contexts/PageContext";
+import type { Post as PostType } from "../../domain/shared/post";
+import type { Page as PageType } from "../../domain/shared/page";
 import { getPosts } from "../../services/use-cases/posts";
 
-interface Post extends Pick<PostType, 'title' | 'category'> {}
+interface Post extends Omit<PostType, "content"> {}
+
+interface Page extends Pick<PageType, "title" | "icon" | "content"> {}
 
 export function Page() {
   const [posts, setPosts] = useState<Post[]>([]);

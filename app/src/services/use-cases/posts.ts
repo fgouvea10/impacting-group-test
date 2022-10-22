@@ -1,7 +1,7 @@
 import { client } from "../client";
 import type { Post as PostType } from "../../domain/shared/post";
 
-interface Post extends Pick<PostType, "title" | "category"> {}
+interface Post extends Omit<PostType, "content"> {}
 
 export async function getPosts(): Promise<Post[]> {
   const { data } = await client.get<Post[]>("/posts");
