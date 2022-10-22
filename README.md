@@ -5,6 +5,10 @@ This is a test for the fullstack developer position at Impacting Group. The chal
 The API was made using Node.js, Typescript and Express.
 The app was made using React Native, Expo and Typescript.
 
+## Requirements
+This application needs Node.js version 16.13.0.
+If you are on a different version, you can use **nvm** to change the version or download it by clicking [here](https://nodejs.org/ru/blog/release/v16.13.0/).
+
 ## Run locally
 
 Clone the project
@@ -58,4 +62,4 @@ Start the app
 You can use the app using an emulator or by scanning the QR Code that the expo will generate. You must have the Expo app installed on your mobile device to use this application.
 
 ## Documentation
-You can access the api documentation by running the project locally and accessing http://localhost:8000/docs
+You can access the api documentation by running the backend locally and accessing http://localhost:8000/docs
