@@ -1,20 +1,9 @@
 import { createContext, ReactNode, useCallback, useState } from "react";
 
-import { client } from "../services/client";
+import { getPages as listPages } from "../services/use-cases/pages";
+import type { Page as PageType } from "../domain/shared/page";
 
-type PageContent = {
-  type: string;
-  title: string;
-  properties: {
-    categories: string[];
-  }
-}
-
-export type Page = {
-  title: string;
-  icon: string;
-  content: PageContent[];
-};
+interface Page extends Pick<PageType, "title" | "icon" | "content"> {}
 
 type PageContextData = {
   getPages(): Promise<void>;
@@ -32,17 +21,11 @@ export function PageProvider({ children }: PageProviderProps) {
 
   const getPages = useCallback(async () => {
     try {
-      const { data } = await client.get<Page[]>("/pages");
-
-      const mappedPages = data.map((page) => ({
-        title: page.title,
-        icon: page.icon,
-        content: page.content,
-      }));
-
-      setPages(mappedPages);
+      const response = await listPages();
+      setPages(response);
     } catch (err) {
       setPages([]);
+      console.error(`[error]: error while fetch pages - ${err}`);
     }
   }, []);
 
